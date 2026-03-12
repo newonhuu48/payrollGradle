@@ -1,38 +1,55 @@
-A large scale refactoring of base payroll repo from PublicIntern2222 has been done
+## 🏗️ Architecture & Design
+The system has been redesigned to follow **Separation of Concerns (SoC)** and modern design patterns.
 
-Applied OOP and SOLID principles to make code base correct and scalable
+![Payroll System Architecture](https://github.com/user-attachments/assets/efe9287d-265e-4fe7-bfc8-e2b2aa2599a6)
 
-Below is the architecture of the system. Note the refactoring and separation of concerns applied to the Payroll system.
+### 1. Employee Model (Hierarchy)
+* **Abstract Class `Employee`**: Implements the Open/Closed Principle. 
+* **Avoidance of "Fat" Models**: Instead of using Enums (which would force an `Hourly` employee to have `monthlySalary` fields), we use specific implementations:
+    * **Salaried**: Handles fixed monthly compensation.
+    * **Contractor**: Hourly-based with specific tax rules.
+    * **Hourly**: Standard hourly wages and calculation logic.
 
-<img width="931" height="643" alt="Payroll System Architecture" src="https://github.com/user-attachments/assets/efe9287d-265e-4fe7-bfc8-e2b2aa2599a6" />
+### 2. PayrollProcessor (The "Brain")
+* Coordinates the entire lifecycle of the payroll process.
+* **Immutability**: Transforms raw data into **Java Records** for thread-safety and data integrity.
+* **Aggregator**: Calculates a `PayrollSummary` (Total Gross, Taxes, and Net).
 
-Project Modules:
-Employee(Salaried, Contractor, Hourly)
-Abstract class Employee follow by it's different implementations. Other possibility for implementing different kinds of Employees is using an Enum but that would lead to Employee containing unneeded data, for example Employee with Enum Salaried would still contain HourlyRate and HoursWorked which is inapplicable
+### 3. PayrollCalculator (Logic Layer)
+* A dedicated module for mathematical computations.
+* Calculates gross, tax, and net pay per employee type.
+* Returns a `PayrollEntry` record, ensuring the logic remains decoupled from the processor.
 
-PayrollProcessor
-The "brain" of the system it connects all the other payroll-related modules together. Calculation of results delegated as requested. Loops through a List of Employees creates a Java Record for each and meanwhile calculates the PayrollSummary containing the total gross, total taxes and total net for all employees. It finally packages everything into a final structured PayrollReport whose contents can be printed.
+### 4. ValidationService (The Shield)
+* Implements **Pattern Matching for switch** (Java 21).
+* **Fail-Fast Approach**: Protects the system from invalid data (negative salaries, null names, or invalid hours) by throwing `IllegalArgumentException`.
 
-PayrollCalculator
-The module which calculates gross pay, tax and net pay for an employee, gets their name and employment type, packages everything into a PayrollEntry Java Record and returns it to PayrollProcessor.
+---
 
+## ⚙️ How to Run
+**Environment:** JDK Amazon Corretto 21.
 
+1. **Initialize the Processor and create an empty Report:**
+   ```java
+   PayrollProcessor p1 = new PayrollProcessor();
+   PayrollReport report;
+2. **Create Employees:**
+Initialize specific types with your data:
 
+   ```java
+   EmployeeSalaried e1 = new EmployeeSalaried("Alice", 5000);
+   EmployeeContractor e2 = new EmployeeContractor("Bob", 50, 160);
+   EmployeeContractor e3 = new EmployeeContractor("Charlie", 60, 0);
+3. **Add Employees to Payroll Processor:**
+   ```java
+   p1.addEmployee(e1);
+   p1.addEmployee(e2);
+   p1.addEmployee(e3);
 
-How to Run:
-Use JDK Amazon Coretto 21 for running the project.
+4. **Process Payroll for added Employees**
+   ```java
+   report = p1.processPayroll();
 
-You need to make an instance of PayrollProcessor
-Create an instance of PayrollReport as well
-
-Create different types of employees(Salaried, Contractors, Hourly) and initialize them with data
-
-Add employees to PayrollProcessor using payrollProcessor1.addEmployee(employee1) (substitute for variable names)
-
-Execute the statement payrollProcessor1.processPayroll and assign it's value to the instance of PayrollReport for example:
-payrollReport1 = payrollProcessor.processPayroll(); (substitute for variable names)
-
-And finally just print the ready report with it's method for example:
-payrollReport1.printReport();
-
-This command will print all the employees previously added in the PayrollProcessor - their name, employment type, gross pay, tax and net pay. Additionally it will print the Payroll summary that will list number of employees by contract types. 
+5. **Print report in readable format**
+   ```java
+   report.printReport();
