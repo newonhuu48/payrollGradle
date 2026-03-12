@@ -6,6 +6,7 @@ public class PayrollSummary {
 
     private int salariedCount;
     private int contractorCount;
+    private int hourlyCount;
     private int unknownCount;
     private int employeeCount;
     private double totalGross;
@@ -29,7 +30,7 @@ public class PayrollSummary {
     }
 
     public void recordHourly(double gross, double tax, double net) {
-        contractorCount++;
+        hourlyCount++;
         employeeCount++;
         totalGross += gross;
         totalTax += tax;
@@ -45,6 +46,7 @@ public class PayrollSummary {
         System.out.println("Payroll summary:");
         System.out.println("  Salaried employees count: " + this.getSalariedCount());
         System.out.println("  Contractor employees count: " + this.getContractorCount());
+        System.out.println("  Hourly employees count: " + this.getHourlyCount());
         System.out.println("  Unknown employees count: " + this.getUnknownCount());
         System.out.println("  Total Gross Pay: " + CurrencyFormatter.format(this.getTotalGross()));
         System.out.println("  Total Taxes: " + CurrencyFormatter.format(this.getTotalTax()));
@@ -59,6 +61,8 @@ public class PayrollSummary {
     public int getContractorCount() {
         return contractorCount;
     }
+
+    public int getHourlyCount() {return hourlyCount;}
 
     public int getUnknownCount() {
         return unknownCount;

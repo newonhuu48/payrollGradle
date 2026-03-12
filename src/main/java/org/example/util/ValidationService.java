@@ -1,6 +1,9 @@
 package org.example.util;
 
 import org.example.employee.Employee;
+import org.example.employee.EmployeeContractor;
+import org.example.employee.EmployeeHourly;
+import org.example.employee.EmployeeSalaried;
 
 public class ValidationService {
 
@@ -12,26 +15,70 @@ public class ValidationService {
 
         if (employee.getName() == null || employee.getName().trim().isEmpty()) {
             System.out.println("[warn] employee name is missing");
+            throw new IllegalArgumentException(
+                    "Employee name is mandatory and cannot be empty!");
         }
 
-        /*
-        if (employee.type == null) {
-            System.out.println("[warn] employee type is null for " + safeName(employee));
+
+        switch (employee) {
+            case EmployeeSalaried s ->
+                    validateEmployee(s);
+
+            case EmployeeContractor c ->
+                    validateEmployee(c);
+
+            case EmployeeHourly h ->
+                validateEmployee(h);
+
+
+            default -> {
+                AuditLogger.logUnknownType(employee);
+                return;
+            }
         }
 
-        if (employee.hourlyRate < 0) {
-            System.out.println("[warn] negative hourly rate for " + safeName(employee));
-        }
+    };
 
-        if (employee.hoursWorked < 0) {
-            System.out.println("[warn] negative hours worked for " + safeName(employee));
-        }
 
-        if (employee.monthlySalary < 0) {
-            System.out.println("[warn] negative monthly salary for " + safeName(employee));
+    //EmployeeSalaried validation
+    public static void validateEmployee(EmployeeSalaried employeeSalaried) {
+        if (employeeSalaried.getMonthlySalary() < 0) {
+            System.out.println("[warn] negative monthly salary for " + safeName(employeeSalaried));
+            throw new IllegalArgumentException(
+                    "Invalid monthly salary (" + employeeSalaried.getMonthlySalary() + ") for: " + employeeSalaried.getName());
         }
-        */
     }
+
+    //EmployeeContractor validation
+    public static void validateEmployee(EmployeeContractor employeeContractor) {
+        if (employeeContractor.getHourlyRate() < 0) {
+            System.out.println("[warn] negative hourly rate for " + safeName(employeeContractor));
+            throw new IllegalArgumentException(
+                    "Invalid hourly rate (" + employeeContractor.getHourlyRate() + ") for: " + employeeContractor.getName());
+        }
+
+        if (employeeContractor.getHoursWorked() < 0) {
+            System.out.println("[warn] negative hours worked for " + safeName(employeeContractor));
+            throw new IllegalArgumentException(
+                    "Invalid hours worked (" + employeeContractor.getHoursWorked() + ") for: " + employeeContractor.getName());
+        }
+    }
+
+    //EmployeeHourly validation
+    public static void validateEmployee(EmployeeHourly employeeHourly) {
+        if (employeeHourly.getHourlyRate() < 0) {
+            System.out.println("[warn] negative hourly rate for " + safeName(employeeHourly));
+            throw new IllegalArgumentException(
+                    "Invalid hourly rate (" + employeeHourly.getHourlyRate() + ") for: " + employeeHourly.getName());
+        }
+
+        if (employeeHourly.getHoursWorked() < 0) {
+            System.out.println("[warn] negative hours worked for " + safeName(employeeHourly));
+            throw new IllegalArgumentException(
+                    "Invalid hours worked (" + employeeHourly.getHoursWorked() + ") for: " + employeeHourly.getName());
+        }
+    }
+
 
     private static String safeName(Employee employee) {
         if (employee == null || employee.getName() == null || employee.getName().trim().isEmpty()) {
@@ -39,5 +86,6 @@ public class ValidationService {
         }
         return employee.getName();
     }
+
 }
 
