@@ -24,20 +24,27 @@ public class Main {
         EmployeeContractor e3 = new EmployeeContractor("Charlie", 60, 0);
 
 
+
+        EmployeeHourly e4 = new EmployeeHourly("John", 60, -200);
+
+
         //Breaks the code
         //Throws Exception - Negative hourlyRate and negative hoursWorked
-        EmployeeHourly e4 = new EmployeeHourly("", -50, -40);
+        //EmployeeHourly e4 = new EmployeeHourly("", -50, -40);
 
 
-        p1.addEmployee(e1);
-        p1.addEmployee(e2);
-        p1.addEmployee(e3);
+        //p1.addEmployee(e1);
+        //p1.addEmployee(e2);
+        //p1.addEmployee(e3);
         p1.addEmployee(e4);
 
 
         report = p1.processPayroll();
 
         report.printReport();
+
+
+        //System.out.println(report.getPayrollSummary().getTotalGross());
     }
 }
 

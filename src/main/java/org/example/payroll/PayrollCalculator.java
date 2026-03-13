@@ -10,24 +10,6 @@ public class PayrollCalculator {
     private static final double OVERTIME_THRESHOLD = 160.0;
     private static final double OVERTIME_MULTIPLIER = 1.5;
 
-    /*
-    public static double calculateHourlyGross(double rate, double hours) {
-
-        double regularPay = Math.min(hours, OVERTIME_THRESHOLD) * rate;
-        double overtimePay = Math.max(0, hours - OVERTIME_THRESHOLD) * rate * OVERTIME_MULTIPLIER;
-
-        return regularPay + overtimePay;
-    }
-
-    public static PayrollResult calculate(Employee employee) {
-        double gross = employee.calculateGrossPay();
-        double tax = gross * employee.getTaxRate();
-        double net = gross - tax;
-        return new PayrollResult(employee.getName(), gross, tax, net);
-    }
-    */
-
-
 
     private static double calculateGrossPay(EmployeeSalaried e) {
         double grossPay = e.getMonthlySalary();

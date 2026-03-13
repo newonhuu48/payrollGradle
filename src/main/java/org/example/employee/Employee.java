@@ -12,6 +12,10 @@ public abstract class Employee {
     //With default tax rate - 20%
     public Employee(String name) {
         this.name = name;
+
+        if (name == null || name.isBlank())
+            throw new IllegalArgumentException("Employee: Name cannot be empty or blank!");
+
         this.taxRate = PayrollProcessor.TAX_RATE; //Defaults to 0.2 = 20%
     }
 

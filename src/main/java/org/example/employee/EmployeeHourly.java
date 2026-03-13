@@ -8,12 +8,22 @@ public class EmployeeHourly extends Employee {
     //With default tax rate - 20%
     public EmployeeHourly(String name, double hourlyRate, double hoursWorked) {
         super(name);
+
+        //Validation
+        if (hourlyRate < 0) throw new IllegalArgumentException("Hourly Employee: Hourly Rate cannot be negative");
+        if (hoursWorked < 0) throw new IllegalArgumentException("Hourly Employee: Hours Worked cannot be negative");
+
         this.hourlyRate = hourlyRate;
         this.hoursWorked = hoursWorked;
     }
 
     public EmployeeHourly(String name, double taxRate, double hourlyRate, double hoursWorked) {
         super(name, taxRate);
+
+        //Validation
+        if (hourlyRate < 0) throw new IllegalArgumentException("Hourly Employee: Hourly Rate cannot be negative");
+        if (hoursWorked < 0) throw new IllegalArgumentException("Hourly Employee: Hours Worked cannot be negative");
+
         this.hourlyRate = hourlyRate;
         this.hoursWorked = hoursWorked;
     }
