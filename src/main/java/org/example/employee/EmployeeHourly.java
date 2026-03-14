@@ -7,7 +7,7 @@ public class EmployeeHourly extends Employee {
 
     //With default tax rate - 20%
     public EmployeeHourly(String name, double hourlyRate, double hoursWorked) {
-        super(name);
+        super(name, EmployeeType.HOURLY);
 
         //Validation
         if (hourlyRate < 0) throw new IllegalArgumentException("Hourly Employee: Hourly Rate cannot be negative");
@@ -18,7 +18,7 @@ public class EmployeeHourly extends Employee {
     }
 
     public EmployeeHourly(String name, double taxRate, double hourlyRate, double hoursWorked) {
-        super(name, taxRate);
+        super(name, EmployeeType.HOURLY, taxRate);
 
         //Validation
         if (hourlyRate < 0) throw new IllegalArgumentException("Hourly Employee: Hourly Rate cannot be negative");

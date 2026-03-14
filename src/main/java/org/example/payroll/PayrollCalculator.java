@@ -1,9 +1,6 @@
 package org.example.payroll;
 
-import org.example.employee.Employee;
-import org.example.employee.EmployeeContractor;
-import org.example.employee.EmployeeHourly;
-import org.example.employee.EmployeeSalaried;
+import org.example.employee.*;
 
 public class PayrollCalculator {
 
@@ -44,7 +41,8 @@ public class PayrollCalculator {
     public static PayrollEntry calculateEntry(Employee e) {
 
         String name = e.getName();
-        String type = e.getClass().getSimpleName().replace("Employee", "");
+        //String type = e.getClass().getSimpleName().replace("Employee", "");
+        Enum<EmployeeType> type = e.getEmployeeType();
 
 
         double grossPay = switch (e) {

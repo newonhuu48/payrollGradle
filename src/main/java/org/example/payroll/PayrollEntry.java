@@ -1,8 +1,10 @@
 package org.example.payroll;
 
+import org.example.employee.EmployeeType;
+
 public record PayrollEntry(
         String name,
-        String employeeType,
+        Enum<EmployeeType> employeeType,
         double grossPay,
         double tax,
         double netPay

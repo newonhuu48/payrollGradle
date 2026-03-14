@@ -25,18 +25,17 @@ public class Main {
 
 
 
-        EmployeeHourly e4 = new EmployeeHourly("John", 60, -200);
+        //EmployeeHourly e4 = new EmployeeHourly("John", 60, 200);
 
 
         //Breaks the code
         //Throws Exception - Negative hourlyRate and negative hoursWorked
         //EmployeeHourly e4 = new EmployeeHourly("", -50, -40);
 
-
-        //p1.addEmployee(e1);
-        //p1.addEmployee(e2);
-        //p1.addEmployee(e3);
-        p1.addEmployee(e4);
+        p1.addEmployee(e1);
+        p1.addEmployee(e2);
+        p1.addEmployee(e3);
+        //p1.addEmployee(e4);
 
 
         report = p1.processPayroll();
